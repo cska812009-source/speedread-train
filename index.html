@@ -137,34 +137,22 @@
 </div>
 
 <script type="module">
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCARFGgCOg2-9o3moFlk3aESd2JzFZ2V1M",
-  authDomain: "speedread-18a13.firebaseapp.com",
-  projectId: "speedread-18a13",
-  storageBucket: "speedread-18a13.firebasestorage.app",
-  messagingSenderId: "4455609998",
-  appId: "1:4455609998:web:3a60fcc4468c88a248bbdf",
-  measurementId: "G-X1T4ZLYRM5"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-    // ============================================================
+    // ========== ВАШИ НАСТРОЙКИ FIREBASE ==========
+    const firebaseConfig = {
+        apiKey: "AIzaSyCARFGgCOg2-9o3moFlk3aESd2JzFZ2V1M",
+        authDomain: "speedread-18a13.firebaseapp.com",
+        projectId: "speedread-18a13",
+        storageBucket: "speedread-18a13.firebasestorage.app",
+        messagingSenderId: "4455609998",
+        appId: "1:4455609998:web:3a60fcc4468c88a248bbdf",
+        measurementId: "G-X1T4ZLYRM5"
+    };
 
     // Импорт Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
+    // Инициализация
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
@@ -177,11 +165,13 @@ const analytics = getAnalytics(app);
     // Переключение между формами
     const loginSection = document.getElementById('loginSection');
     const registerSection = document.getElementById('registerSection');
+    
     document.getElementById('showRegisterBtn').addEventListener('click', () => {
         loginSection.style.display = 'none';
         registerSection.style.display = 'block';
         authMessage.textContent = '';
     });
+    
     document.getElementById('showLoginBtn').addEventListener('click', () => {
         registerSection.style.display = 'none';
         loginSection.style.display = 'block';
