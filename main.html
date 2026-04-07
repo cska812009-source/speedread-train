@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Скорочитайка — Тренажёр</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Arial', 'Comfortaa', sans-serif;
+            background: linear-gradient(135deg, #e0f0ff 0%, #b8d8fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .trainer-container {
+            background: white;
+            border-radius: 48px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            max-width: 800px;
+            width: 100%;
+            padding: 30px 25px 40px;
+            text-align: center;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .owl {
+            font-size: 48px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #2c5f8a;
+        }
+
+        .user-info {
+            background: #eef2f7;
+            padding: 8px 16px;
+            border-radius: 40px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #2c5f8a;
+        }
+
+        .word-window {
+            background: #f9f5e8;
+            border-radius: 32px;
+            padding: 50px 20px;
+            margin: 20px 0;
+            border: 2px solid #ffe0a3;
+        }
+
+        #word {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #1f4e6e;
+            transition: opacity 0.3s ease-in-out;
+            opacity: 1;
+            word-break: break-word;
+        }
+
+        .fade-out {
+            opacity: 0 !important;
+        }
+
+        .speed-control {
+            margin: 25px 0;
+            background: #eef2f7;
+            padding: 15px 20px;
+            border-radius: 60px;
+        }
+
+        .speed-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .speed-icon {
+            font-size: 1.3rem;
+            background: white;
+            padding: 5px 15px;
+            border-radius: 40px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            background: #cbdbe6;
+            border-radius: 5px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #ff9f4a;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .speed-value {
+            font-size: 1rem;
+            background: #2c5f8a;
+            display: inline-block;
+            padding: 5px 20px;
+            border-radius: 30px;
+            color: white;
+            margin-top: 10px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 25px 0 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            font-size: 1.2rem;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.1s;
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        #startBtn { background-color: #4caf50; color: white; box-shadow: 0 4px 0 #2e6b31; }
+        #pauseBtn { background-color: #ff9800; color: white; box-shadow: 0 4px 0 #b26500; }
+        #stopBtn { background-color: #f44336; color: white; box-shadow: 0 4px 0 #a31f1f; }
+
+        .info {
+            margin-top: 25px;
+            padding: 12px;
+            background: #eef2f7;
+            border-radius: 28px;
+            font-size: 0.9rem;
+            color: #2c5f8a;
+        }
+
+        @media (max-width: 550px) {
+            .trainer-container { padding: 20px 15px; }
+            #word { font-size: 2.5rem; }
+            button { padding: 8px 18px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="trainer-container">
+    <div class="header">
+        <div class="owl">🦉</div>
+        <h1>Скорочитайка</h1>
+        <div class="owl">📖</div>
+    </div>
+
+    <div class="user-info" id="userDisplay"></div>
+
+    <div class="word-window">
+        <div id="word">Привет!</div>
+    </div>
+
+    <div class="speed-control">
+        <div class="speed-label">
+            <span class="speed-icon">🐢 Черепаха</span>
+            <span class="speed-icon">⚡ Гепард 🐆</span>
+        </div>
+        <input type="range" id="speedSlider" min="0" max="100" value="30">
+        <div class="speed-value" id="speedDisplay">Скорость: средняя</div>
+    </div>
+
+    <div class="controls">
+        <button id="startBtn">▶ Старт</button>
+        <button id="pauseBtn">⏸ Пауза</button>
+        <button id="stopBtn">⏹ Стоп</button>
+    </div>
+
+    <div class="info">
+        🌟 Слова появляются по одному. Смотри в центр экрана!<br>
+        🎯 Двигай ползунок, чтобы менять скорость.
+    </div>
+</div>
+
+<script>
+    // Показываем имя пользователя
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+        document.getElementById('userDisplay').innerText = `👋 Привет, ${currentUser}!`;
+    } else {
+        document.getElementById('userDisplay').innerHTML = `<a href="index.html" style="color:#ff9f4a;">👉 Войти</a>`;
+    }
+
+    // Слова для тренажёра
+    const wordsList = [
+        "Привет", "друг", "сегодня", "мы", "будем", "тренировать", "скорочтение",
+        "Смотри", "внимательно", "на", "центр", "экрана", "Слова", "будут", "меняться",
+        "Старайся", "не", "отвлекаться", "У","тебя", "всё", "получится", "Отлично", "Продолжай",
+        "Ты", "молодец", "Так", "держать", "Ещё", "немного", "Финиш"
+    ];
+
+    let currentIndex = 0;
+    let intervalId = null;
+    let isRunning = false;
+
+    const wordElement = document.getElementById('word');
+    const speedSlider = document.getElementById('speedSlider');
+    const speedDisplay = document.getElementById('speedDisplay');
+
+    function getDelayMs() {
+        const val = parseInt(speedSlider.value);
+        const maxDelay = 1800;
+        const minDelay = 250;
+        const delay = maxDelay - (val / 100) * (maxDelay - minDelay);
+        return Math.round(delay);
+    }
+
+    function updateSpeedDisplay() {
+        const val = parseInt(speedSlider.value);
+        if (val < 20) speedDisplay.textContent = "🐢 Очень медленно";
+        else if (val < 45) speedDisplay.textContent = "🚶‍♂️ Медленно";
+        else if (val < 70) speedDisplay.textContent = "🚴‍♀️ Средне";
+        else if (val < 90) speedDisplay.textContent = "🚗 Быстро";
+        else speedDisplay.textContent = "🐆 Очень быстро (Гепард)";
+    }
+
+    function changeWord() {
+        wordElement.classList.add('fade-out');
+        setTimeout(() => {
+            currentIndex = (currentIndex + 1) % wordsList.length;
+            wordElement.textContent = wordsList[currentIndex];
+            wordElement.classList.remove('fade-out');
+        }, 250);
+    }
+
+    function startTrainer() {
+        if (intervalId) clearInterval(intervalId);
+        isRunning = true;
+        intervalId = setInterval(changeWord, getDelayMs());
+    }
+
+    function pauseTrainer() {
+        if (intervalId) {
+            clearInterval(intervalId);
+            intervalId = null;
+            isRunning = false;
+        }
+    }
+
+    function stopTrainer() {
+        pauseTrainer();
+        wordElement.classList.remove('fade-out');
+        wordElement.textContent = wordsList[0];
+        currentIndex = 0;
+    }
+
+    speedSlider.addEventListener('input', () => {
+        updateSpeedDisplay();
+        if (isRunning) {
+            if (intervalId) clearInterval(intervalId);
+            intervalId = setInterval(changeWord, getDelayMs());
+        }
+    });
+
+    document.getElementById('startBtn').addEventListener('click', startTrainer);
+    document.getElementById('pauseBtn').addEventListener('click', pauseTrainer);
+    document.getElementById('stopBtn').addEventListener('click', stopTrainer);
+
+    updateSpeedDisplay();
+</script>
+
+</body>
+</html>

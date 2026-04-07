@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет - Скорочитайка</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #f0f2f5;
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        /* Шапка */
+        .header {
+            background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .avatar {
+            font-size: 2.5rem;
+            background: white;
+            color: #4b6cb7;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .user-details h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        .header-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .header-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .header-btn:hover {
+            background: white;
+            color: #4b6cb7;
+        }
+        
+        /* Основной контент */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        /* Карточки статистики */
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .stat-value {
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: #182848;
+            display: block;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        /* История тренировок */
+        .history-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-title {
+            color: #182848;
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+        
+        .training-history {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .training-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.3s;
+        }
+        
+        .training-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .training-info {
+            flex: 1;
+        }
+        
+        .training-date {
+            font-weight: bold;
+            color: #182848;
+            margin-bottom: 5px;
+        }
+        
+        .training-stats {
+            display: flex;
+            gap: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .training-accuracy {
+            font-weight: bold;
+            color: #28a745;
+        }
+        
+        .no-history {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        /* Достижения */
+        .achievements-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .achievement {
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #eaeaea;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .achievement.locked {
+            opacity: 0.5;
+        }
+        
+        .achievement.unlocked {
+            border-color: #ffc107;
+            background: #fff9e6;
+        }
+        
+        .achievement-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .achievement-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #182848;
+        }
+        
+        .achievement-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* Прогресс бар */
+        .progress-section {
+            margin: 30px 0;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #eaeaea;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4b6cb7, #182848);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .header {
+                padding: 20px;
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .user-info {
+                flex-direction: column;
+            }
+            
+            .header-buttons {
+                justify-content: center;
+            }
+            
+            .training-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .training-stats {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .header-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .stats-overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-value {
+                font-size: 2.2rem;
+            }
+            
+            .achievements-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Проверка авторизации -->
+    <script>
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser) {
+            window.location.href = 'index.html';
+        }
+    </script>
+
+    <!-- Шапка -->
+    <header class="header">
+        <div class="user-info">
+            <div class="avatar" id="userAvatar">
+                <!-- Аватар загрузится из JS -->
+            </div>
+            <div class="user-details">
+                <h1 id="userName">Личный кабинет</h1>
+                <p style="opacity: 0.9;">Здесь собрана вся твоя статистика</p>
+            </div>
+        </div>
+        <div class="header-buttons">
+            <button class="header-btn" onclick="window.location.href='main.html'">
+                🔙 Назад к тренажёру
+            </button>
+            <button class="header-btn" onclick="logout()">
+                🚪 Выйти
+            </button>
+        </div>
+    </header>
+
+    <!-- Основной контент -->
+    <div class="container">
+        <!-- Общая статистика -->
+        <div class="stats-overview">
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <span class="stat-value" id="totalScore">0</span>
+                <span class="stat-label">Общее количество очков</span>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <span class="stat-value" id="totalTrainings">0</span>
+                <span class="stat-label">Всего тренировок</span>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <span class="stat-value" id="totalWords">0</span>
+                <span class="stat-label">Запомнено слов</span>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">🎯</div>
+                <span class="stat-value" id="avgAccuracy">0%</span>
+                <span class="stat-label">Средняя точность</span>
+            </div>
+        </div>
+
+        <!-- Прогресс до следующего уровня -->
+        <div class="history-section">
+            <h2 class="section-title">📈 Твой прогресс</h2>
+            <div class="progress-section">
+                <div class="progress-label">
+                    <span>Уровень <span id="currentLevel">1</span></span>
+                    <span>Следующий уровень через: <span id="nextLevelPoints">100</span> очков</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="levelProgress" style="width: 0%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- История тренировок -->
+        <div class="history-section">
+            <h2 class="section-title">📋 История тренировок</h2>
+            <div class="training-history" id="trainingHistory">
+                <!-- Список тренировок загрузится здесь -->
+            </div>
+        </div>
+
+        <!-- Достижения -->
+        <div class="achievements-section">
+            <h2 class="section-title">🏆 Твои достижения</h2>
+            <div class="achievements-grid" id="achievementsGrid">
+                <!-- Достижения загрузится здесь -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Загрузка данных пользователя
+        document.getElementById('userAvatar').textContent = currentUser.avatar || '👤';
+        document.getElementById('userName').textContent = `${currentUser.name}, это твой кабинет`;
+
+        // Загрузка статистики
+        function loadStatistics() {
+            const users = JSON.parse(localStorage.getItem('users')) || {};
+            const trainingHistory = JSON.parse(localStorage.getItem('trainingHistory')) || {};
+            
+            // Данные текущего пользователя
+            const userData = users[currentUser.username] || {};
+            const userHistory = trainingHistory[currentUser.username] || [];
+            
+            // Общая статистика
+            document.getElementById('totalScore').textContent = userData.score || 0;
+            document.getElementById('totalTrainings').textContent = userHistory.length;
+            
+            // Считаем общее количество слов и среднюю точность
+            let totalWords = 0;
+            let totalAccuracy = 0;
+            
+            userHistory.forEach(training => {
+                totalWords += training.wordsRemembered || 0;
+                totalAccuracy += training.accuracy || 0;
+            });
+            
+            document.getElementById('totalWords').textContent = totalWords;
+            document.getElementById('avgAccuracy').textContent = userHistory.length > 0 
+                ? Math.round(totalAccuracy / userHistory.length) + '%' 
+                : '0%';
+            
+            // Уровень и прогресс
+            const currentScore = userData.score || 0;
+            const currentLevel = Math.floor(currentScore / 100) + 1;
+            const pointsToNextLevel = 100 - (currentScore % 100);
+            
+            document.getElementById('currentLevel').textContent = currentLevel;
+            document.getElementById('nextLevelPoints').textContent = pointsToNextLevel;
+            document.getElementById('levelProgress').style.width = ((100 - pointsToNextLevel) * 100 / 100) + '%';
+            
+            // История тренировок
+            const historyContainer = document.getElementById('trainingHistory');
+            
+            if (userHistory.length === 0) {
+                historyContainer.innerHTML = `
+                    <div class="no-history">
+                        <p style="font-size: 1.2rem; margin-bottom: 10px;">😴 Пока нет тренировок</p>
+                        <p>Вернись на главную страницу и начни тренировку!</p>
+                        <button onclick="window.location.href='main.html'" style="
+                            margin-top: 20px;
+                            padding: 12px 30px;
+                            background: #4b6cb7;
+                            color: white;
+                            border: none;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            font-weight: bold;
+                        ">▶️ Начать тренировку</button>
+                    </div>
+                `;
+            } else {
+                let historyHTML = '';
+                
+                // Сортируем по дате (новые сверху)
+                userHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                userHistory.forEach((training, index) => {
+                    const date = new Date(training.date);
+                    const formattedDate = date.toLocaleDateString('ru-RU', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    
+                    historyHTML += `
+                        <div class="training-item">
+                            <div class="training-info">
+                                <div class="training-date">Тренировка ${userHistory.length - index} - ${formattedDate}</div>
+                                <div class="training-stats">
+                                    <span>📖 Слов показано: ${training.wordsShown || 0}</span>
+                                    <span>✅ Запомнено: ${training.wordsRemembered || 0}</span>
+                                    <span>⚡ Уровень: ${training.level || 1}</span>
+                                    <span>⏱️ Скорость: ${training.speed || 1.0}с</span>
+                                </div>
+                            </div>
+                            <div class="training-accuracy">
+                                ${training.accuracy || 0}%
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                historyContainer.innerHTML = historyHTML;
+            }
+            
+            // Достижения
+            const achievements = [
+                {
+                    id: 'first_training',
+                    title: 'Первая тренировка',
+                    description: 'Пройди свою первую тренировку',
+                    icon: '🎯',
+                    unlocked: userHistory.length > 0
+                },
+                {
+                    id: 'words_100',
+                    title: 'Сто слов',
+                    description: 'Запомни 100 слов',
+                    icon: '💯',
+                    unlocked: totalWords >= 100
+                },
+                {
+                    id: 'accuracy_90',
+                    title: 'Точность 90%',
+                    description: 'Достигни точности 90%',
+                    icon: '🎯',
+                    unlocked: userHistory.some(t => t.accuracy >= 90)
+                },
+                {
+                    id: 'level_2',
+                    title: 'Уровень 2',
+                    description: 'Достигни 2 уровня',
+                    icon: '⭐',
+                    unlocked: currentLevel >= 2
+                },
+                {
+                    id: 'speed_master',
+                    title: 'Скорость',
+                    description: 'Пройди тренировку на скорости 0.5с',
+                    icon: '⚡',
+                    unlocked: userHistory.some(t => t.speed <= 0.5)
+                },
+                {
+                    id: 'hard_mode',
+                    title: 'Сложный режим',
+                    description: 'Пройди тренировку на 5 уровне',
+                    icon: '🔥',
+                    unlocked: userHistory.some(t => t.level == 5)
+                }
+            ];
+            
+            const achievementsGrid = document.getElementById('achievementsGrid');
+            let achievementsHTML = '';
+            
+            achievements.forEach(achievement => {
+                achievementsHTML += `
+                    <div class="achievement ${achievement.unlocked ? 'unlocked' : 'locked'}">
+                        <div class="achievement-icon">${achievement.icon}</div>
+                        <div class="achievement-title">${achievement.title}</div>
+                        <div class="achievement-desc">${achievement.description}</div>
+                        <div style="margin-top: 10px; font-size: 0.8rem; color: ${achievement.unlocked ? '#28a745' : '#666'}">
+                            ${achievement.unlocked ? '✅ Получено' : '🔒 Не получено'}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            achievementsGrid.innerHTML = achievementsHTML;
+        }
+        
+        // Выход
+        function logout() {
+            if (confirm(`${currentUser.name}, ты уверен, что хочешь выйти?`)) {
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            }
+        }
+        
+        // Загружаем статистику при открытии страницы
+        window.addEventListener('load', loadStatistics);
+    </script>
+</body>
+</html>
