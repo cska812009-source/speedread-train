@@ -65,7 +65,6 @@
         <div class="owl">📖</div>
     </div>
 
-    <!-- Блок входа/регистрации -->
     <div id="authBlock">
         <div class="form-box">
             <div id="loginSection">
@@ -102,7 +101,6 @@
         </div>
     </div>
 
-    <!-- Блок тренажёра (скрыт, пока не войдут) -->
     <div id="trainerBlock" style="display: none;">
         <div class="user-info" id="userDisplay"></div>
 
@@ -137,7 +135,6 @@
 </div>
 
 <script type="module">
-    // ========== ВАШИ НАСТРОЙКИ FIREBASE ==========
     const firebaseConfig = {
         apiKey: "AIzaSyCARFGgCOg2-9o3moFlk3aESd2JzFZ2V1M",
         authDomain: "speedread-18a13.firebaseapp.com",
@@ -148,21 +145,17 @@
         measurementId: "G-X1T4ZLYRM5"
     };
 
-    // Импорт Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
-    // Инициализация
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // Элементы DOM
     const authBlock = document.getElementById('authBlock');
     const trainerBlock = document.getElementById('trainerBlock');
     const userDisplay = document.getElementById('userDisplay');
     const authMessage = document.getElementById('authMessage');
 
-    // Переключение между формами
     const loginSection = document.getElementById('loginSection');
     const registerSection = document.getElementById('registerSection');
     
@@ -178,7 +171,6 @@
         authMessage.textContent = '';
     });
 
-    // РЕГИСТРАЦИЯ
     document.getElementById('registerBtn').addEventListener('click', async () => {
         const email = document.getElementById('regEmail').value.trim();
         const password = document.getElementById('regPassword').value.trim();
@@ -211,7 +203,6 @@
         }
     });
 
-    // ВХОД
     document.getElementById('loginBtn').addEventListener('click', async () => {
         const email = document.getElementById('loginEmail').value.trim();
         const password = document.getElementById('loginPassword').value.trim();
@@ -235,12 +226,10 @@
         }
     });
 
-    // ВЫХОД
     document.getElementById('logoutBtn').addEventListener('click', async () => {
         await signOut(auth);
     });
 
-    // ОТСЛЕЖИВАНИЕ СОСТОЯНИЯ ВХОДА
     let isRunning = false;
     let intervalId = null;
     let currentIndex = 0;
